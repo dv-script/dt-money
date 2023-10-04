@@ -2,6 +2,7 @@ import * as S from "./styles";
 
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
+import { SearchForm } from "./components/SearchForm";
 
 export function Transactions() {
     return (
@@ -11,6 +12,7 @@ export function Transactions() {
 
 
             <S.TransactionsContainer>
+                <SearchForm />
                 <S.TransactionsTable>
                     <tr>
                         <td width="50%">Desenvolvimento de site</td>
