@@ -1,29 +1,12 @@
-import { useContext } from 'react'
-import { TransactionsContext } from '../../contexts/TransactionsContext'
 import * as S from './styles'
 
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react'
+import { priceFormatter } from '../../utils/formatter'
+import { useSummary } from '../../hooks/useSummary'
 
 export function Summary() {
 
-    const { transactions } = useContext(TransactionsContext)
-
-    const summary = transactions.reduce((acc, transaction) => {
-        if (transaction.type === 'income') {
-            acc.income += transaction.price
-            acc.total += transaction.price
-        } else {
-            acc.outcome += transaction.price
-            acc.total -= transaction.price
-        }
-
-        return acc
-    }, {
-        income: 0,
-        outcome: 0,
-        total: 0
-    })
-
+    const summary = useSummary();
 
     return (
         <S.SummaryContainer>
@@ -33,7 +16,7 @@ export function Summary() {
                     <ArrowCircleUp size={32} color="#00b37e" />
                 </header>
 
-                <strong>R$ {summary.income.toFixed(2)}</strong>
+                <strong>{priceFormatter.format(summary.income)}</strong>
             </S.SummaryCard>
             <S.SummaryCard>
                 <header>
@@ -41,7 +24,7 @@ export function Summary() {
                     <ArrowCircleDown size={32} color="#f75a68" />
                 </header>
 
-                <strong>R$ {summary.outcome.toFixed(2)}</strong>
+                <strong>{priceFormatter.format(summary.outcome)}</strong>
             </S.SummaryCard>
             <S.SummaryCard $variant="green">
                 <header>
@@ -49,7 +32,7 @@ export function Summary() {
                     <CurrencyDollar size={32} color="#fff" />
                 </header>
 
-                <strong>R$ {summary.total.toFixed(2)}</strong>
+                <strong>{priceFormatter.format(summary.total)}</strong>
             </S.SummaryCard>
         </S.SummaryContainer>
     )
